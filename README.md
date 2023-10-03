@@ -12,8 +12,8 @@
 휴일에 같이 술 마실 친구가 없어 한가한 일상을 보내는 사람들을 위해 술자리 모임을 만들거나,
 찾고자 하는 모임과 가까운 곳을 소개시켜주어 목적이 맞는 사람들과 거부감 없이 빠르게 친해질 수 있게 도와주는 웹 서비스입니다.<br/>
 
-- 사용자 : 회원 가입 , 로그인
-- 모임 : 모임 개설 , 모임 참여
+- 사용자 : 회원 가입 , 로그인 , 프로필 수정 , 동네 인증
+- 모임 : 모임 개설 , 모임 참여 및 탈퇴 , 모임 필터 탐색 , 상세 보기 , 관심있는 모임
 - 채팅 : 모임 간 채팅
 
 <h2>Project Structure</h2>
@@ -37,6 +37,14 @@
 
 ![image](https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/103cd299-eade-4fdc-b34e-172de446325d)
 
+<h2>JPA & QueryDSL</h2>
+
+> 객체 중심 설계와 반복적인 CRUD를 Spring Data JPA 로 최소화해 비즈니스 로직에 집중합니다.
+
+- QueryDSL : 복잡한 JPQL 작성시 발생할 수 있는 문법오류를 컴파일 시점에 빠르게 찾아냅니다.
+- Spring Data JPA 를 이용해 반복적인 CRUD를 최소화 하고 , 페이징을 이용해 성능을 높혔습니다.
+- QueryDSL 을 이용해 복잡한 JPQL 작성시 발생할 수 있는 문법오류를 최소화 합니다.
+
 <h2>Spring Security</h2>
 
 > 권한에 따라 접근할 수 있는 API 를 분리했습니다.
@@ -46,11 +54,17 @@
 - Session Creation Policy : STATELESS
 - JwtAuthenticationFilter : before UsernamePasswordAuthenticationFilter.class
 
+<h2>JWT</h2>
+
+> JWT을 이용해 토큰 기반 인증 방식으로 사용자 인증 정보를 저장합니다.
+
+- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly 옵션으로 보안처리 했습니다
+
 <h2>CI / CD</h2>
 
 > Jenkins 를 이용하여 지속적인 배포를 구성
 
-- 병합된 코드는 Jenkins WebHook 을 통해 AWS 에 호스팅됩니다.
+- 병합된 코드는 Jenkins WebHook 을 통해 AWS API 서버 에 호스팅됩니다.
 
 <h2>1. 로그인 & 회원가입 화면</h2>
 
@@ -72,7 +86,9 @@
 <img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/3029f246-78ee-4956-a19a-be059d064ce0" width="25%">
 
 - 마감이 가까운 모임이 먼저 사용자에게 노출됩니다.
+  - 그 중 현재 내 위치랑 가까운 모임을 먼저 노출합니다.
 - 필터를 통해서 내가 원하는 모임을 빠르게 찾을 수 있습니다.
+   
 
 <h2>3. 모임 상세 정보</h2>
 
@@ -84,13 +100,15 @@
 
 > 모임을 직접 개설할 수 있습니다.
 
-<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/083803c6-a6a8-4438-ab7b-ec530ea98920" width="25%">
+<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/083803c6-a6a8-4438-ab7b-ec530ea98920" width="20%">
 
-<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/8eee1308-24e3-4e97-9e49-3accd2f3f252" width="25%">
+<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/8eee1308-24e3-4e97-9e49-3accd2f3f252" width="20%">
 
-<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/5a0b2f33-1536-43bf-a72c-8ab0303dd025" width="25%">
+<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/5a0b2f33-1536-43bf-a72c-8ab0303dd025" width="20%">
 
-<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/f4041ac5-a413-4892-b7b3-dfaa8e811f9f" width="25%">
+<img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/f4041ac5-a413-4892-b7b3-dfaa8e811f9f" width="20%">
+
+- 카카오 API를 이용하여 모임에 대한 정확한 위치를 설정할 수 있습니다.
 
 <h2>5. 프로필 정보 수정</h2>
 
@@ -100,13 +118,17 @@
 
 <img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/48039bb5-58dd-40d6-8478-c63670924f65" width="25%">
 
-<h2>관심 목록 및 동네 인증</h2>
+<h2>6. 관심 목록 및 동네 인증</h2>
+
+> 카카오맵 API를 이용하여 동네 인증을 구현했습니다.
 
 <img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/ed560146-01e6-467c-b64a-c943c200a2bc" width="25%">
 <img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/68c0df08-820f-41db-afe8-85592624e9e1" width="25%">
 <img src="https://github.com/5tr1ker/jjan_back_renewal/assets/49367338/e884eb86-a225-4e63-9d60-a0fa2865a1d8" width="25%">
 
-<h2>6. 채팅</h2>
+- 카카오맵 API를 이용하여 현재 사용자가 위치하고 있는 정보를 가져옵니다.
+
+<h2>7. 채팅</h2>
 
 > 현재 내가 속해있는 모임원들과 채팅을 할 수 있습니다.
 
