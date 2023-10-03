@@ -33,13 +33,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .requestMatchers("/**").permitAll();
-//                .requestMatchers(HttpMethod.POST , "/api/user/**").permitAll()
-//                .requestMatchers(HttpMethod.DELETE , "/api/user/**").permitAll()
-//                .requestMatchers(HttpMethod.DELETE , "/**").hasRole(Role.MEMBER.name())
-//                .requestMatchers(HttpMethod.PATCH , "/**").hasRole(Role.MEMBER.name())
-//                .requestMatchers(HttpMethod.PUT , "/**").hasRole(Role.MEMBER.name())
-//                .requestMatchers(HttpMethod.POST , "/**").hasRole(Role.MEMBER.name())
+               .requestMatchers(HttpMethod.GET , "/api/user/**").permitAll();
+                .requestMatchers(HttpMethod.POST , "/api/user/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE , "/api/user/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE , "/**").hasRole(Role.MEMBER.name())
+                .requestMatchers(HttpMethod.PATCH , "/**").hasRole(Role.MEMBER.name())
+                .requestMatchers(HttpMethod.PUT , "/**").hasRole(Role.MEMBER.name())
+                .requestMatchers(HttpMethod.POST , "/**").hasRole(Role.MEMBER.name())
 
         http.addFilterBefore(new ExceptionHandlerFilter() , UsernamePasswordAuthenticationFilter.class);
 
